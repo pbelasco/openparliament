@@ -8,3 +8,7 @@ config/bot.yml
 *.[oa]
 *~
 *#*
+data/**/*.csv
+data/**/*.yml
+data/*.csv
+data/*.yml
