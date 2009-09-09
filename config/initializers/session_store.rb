@@ -6,7 +6,7 @@
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
   :key         => '_openparliament_session',
-  :secret      => '827b5da838cdcd59fa5520f684b6da03ec7b746fe4b9eab2365c6dfdcef9460b8a604a937ee8cac394b957f9042ca595ace18bf0041507b0b07f320e13097a8e'
+  :secret      => '0a81321b64488c651f6c6be43b8ceb59c107688730e1bb651d01d8a4beafcc18e2924e748c8a65e5310811eb3a7c6c7da817ebc548d9d1bc1988939eba28cd89'
 }
 
 # Use the database for sessions instead of the cookie-based default,
