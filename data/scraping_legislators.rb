@@ -34,59 +34,47 @@ agent = WWW::Mechanize.new
 
 legislators = []
 
-# we're keeping a file just with the list of legislators so we don't need
-# to read it again every time we're testing the extraction of their
-# voting history (which is still buggy)
-if File.exists?('legislators.yml')
-  legislators = File.open('legislators.yml') { |f| YAML::load(f) }
-else
+field_names = ['house_id', 'nickname', 'subscription_number', 'state_code',
+               'party_code', 'site_metadata_select_value']
 
-  field_names = ['legislator_id', 'subscription_number', 'state_code',
-                 'party_code', 'site_metadata_select_value']
-
-  File.open('legislators.csv', 'w') { |f|
-    f << field_names.map { |field| "\"#{field}\""}.join(',') + "\n"
-  }
+File.open('legislators.csv', 'w') { |f|
+  f << field_names.map { |field| "\"#{field}\""}.join(',') + "\n"
+}
 
 
-  page = agent.get('http://www2.camara.gov.br/deputados')
-  form = page.form('form1')
-  select = form.fields[5]
+page = agent.get('http://www2.camara.gov.br/deputados')
+form = page.form('form1')
+select = form.fields[5]
 
-  legislators = []
+legislators = []
 
-  # the first option is just the label
-  select.options[1..-1].each do |option|
+# the first option is just the label
+select.options[1..-1].each do |option|
+  legislator = OpenStruct.new
+  legislator.nickname = option.instance_eval('@text')
 
-    legislator = OpenStruct.new
-    legislator.name = option.instance_eval('@text')
+  option.instance_eval('@value') =~ /\|(\d+)%/
+  legislator.house_id = $1
 
-    option.instance_eval('@value') =~ /\|(\d+)%/
-    legislator.legislator_id = $1
+  option.instance_eval('@value') =~ /%(\d+)!/
+  legislator.subscription_number = $1 # matricula
 
-    option.instance_eval('@value') =~ /%(\d+)!/
-    legislator.subscription_number = $1 # matricula
+  option.instance_eval('@value') =~ /\!(.*)=/
+  legislator.state_code = $1
 
-    option.instance_eval('@value') =~ /\!(.*)=/
-    legislator.state_code = $1
+  option.instance_eval('@value') =~ /=(.*)/
+    legislator.party_code = $1
 
-    option.instance_eval('@value') =~ /=(.*)/
-      legislator.party_code = $1
+  # store the raw info we got from the select dropdown
+  legislator.site_metadata_select_value = option.instance_eval('@value')
 
-    # store the raw info we got from the select dropdown
-    legislator.site_metadata_select_value = option.instance_eval('@value')
+  puts legislator.nickname
+  legislators << legislator
+end
 
-    puts legislator.name
-    legislators << legislator
-  end
-
-  YAML::dump(legislators, File.open('legislators.yml', 'w'))
-
-  legislators.each do |leg|
-    fields = [leg.legislator_id.to_s, leg.name, leg.subscription_number,
-              leg.state_code, leg.party_code, leg.site_metadata_select_value]
-    line = fields.map { |field| "\"#{field}\""}.join(',') + "\n"
-    File.open("legislators.csv", "a") {|f| f << line }
-  end
+legislators.each do |leg|
+  fields = field_names.map{|field| leg.send(field.to_sym).to_s }
+  line = fields.map { |field| "\"#{field}\""}.join(',') + "\n"
+  File.open("legislators.csv", "a") {|f| f << line }
 end
 
