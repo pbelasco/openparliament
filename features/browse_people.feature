@@ -1,9 +1,9 @@
 Feature: Browse people
   In order to find the people I'm interested in tracking
   As a LegislatorTracker
-  I want to list and see details on people
+  I want to browse through people
 
-  Scenario: List people
+  Scenario: Simple list of people
     Given the following people:
       |firstname|middlename|lastname|nickname|birthday|gender|
       |firstname 1|middlename 1|lastname 1|nickname 1|1962-03-21|gender 1|
@@ -17,3 +17,4 @@ Feature: Browse people
       |firstname 2|middlename 2|lastname 2|nickname 2|1962-03-21|gender 2|
       |firstname 3|middlename 3|lastname 3|nickname 3|1962-03-21|gender 3|
       |firstname 4|middlename 4|lastname 4|nickname 4|1962-03-21|gender 4|
+

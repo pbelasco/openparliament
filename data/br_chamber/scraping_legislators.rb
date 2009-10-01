@@ -34,7 +34,7 @@ agent = WWW::Mechanize.new
 
 legislators = []
 
-field_names = ['house_id', 'nickname', 'subscription_number', 'state_code',
+field_names = ['chamber_id', 'nickname', 'subscription_number', 'state_code',
                'party_code', 'site_metadata_select_value']
 
 File.open('legislators.csv', 'w') { |f|
@@ -54,7 +54,7 @@ select.options[1..-1].each do |option|
   legislator.nickname = option.instance_eval('@text')
 
   option.instance_eval('@value') =~ /\|(\d+)%/
-  legislator.house_id = $1
+  legislator.chamber_id = $1
 
   option.instance_eval('@value') =~ /%(\d+)!/
   legislator.subscription_number = $1 # matricula

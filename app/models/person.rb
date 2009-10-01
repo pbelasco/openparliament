@@ -3,7 +3,7 @@ class Person < ActiveRecord::Base
     firstname :string
     middlename :string
     lastname :string
-    nickname :string
+    nickname :string, :required
     birthday :date
     gender :string
   end

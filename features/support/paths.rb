@@ -14,11 +14,8 @@ module NavigationHelpers
     when /the people page/
       people_path
 
-    # Add more mappings here.
-    # Here is a more fancy example:
-    #
-    #   when /^(.*)'s profile page$/i
-    #     user_profile_path(User.find_by_login($1))
+    when /^(.*)'s profile page$/i
+      person_path(Person.find_by_nickname($1))
 
     else
       raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
