@@ -7,6 +7,7 @@ db/test.sqlite3
 db/schema.rb
 config/rpx_now.yml
 config/bot.yml
+config/deploy.rb
 *.[oa]
 *~
 *#*
