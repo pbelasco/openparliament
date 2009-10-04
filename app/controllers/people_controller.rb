@@ -23,7 +23,6 @@ class PeopleController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @person.to_xml(:include => :votes) }
-      format.rss  { render :rss => @person.to_rss(:include => :votes) }
     end
   end
 
