@@ -1,3 +1,5 @@
+require 'iconv'
+
 class PeopleController < ApplicationController
   # GET /people
   # GET /people.xml
@@ -13,11 +15,15 @@ class PeopleController < ApplicationController
   # GET /people/1
   # GET /people/1.xml
   def show
+    @iconv = Iconv.new('UTF-8', 'iso-8859-1')
+
     @person = Person.find(params[:id])
+    @votes = @person.votes(:order => 'date DESC')
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @person }
+      format.xml  { render :xml => @person.to_xml(:include => :votes) }
+      format.rss  { render :rss => @person.to_rss(:include => :votes) }
     end
   end
 

@@ -7,4 +7,7 @@ class Person < ActiveRecord::Base
     birthday :date
     gender :string
   end
+
+  has_many :votes
+
 end

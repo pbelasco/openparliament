@@ -9,8 +9,10 @@ FasterCSV.foreach('legislators.csv', :headers => true) do |row|
   # for now, this script is only for insertion, so if there's already
   # a record, we don't update the info
   unless meta
-    person = Person.new
     meta = Metadata.new(:chamber_id => row['chamber_id'])
+    meta.subscription_number = row['subscription_number']
+
+    person = Person.new
     person.nickname = row['nickname']
     person.save!
     meta.person = person

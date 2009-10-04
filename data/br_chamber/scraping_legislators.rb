@@ -56,7 +56,7 @@ select.options[1..-1].each do |option|
   option.instance_eval('@value') =~ /\|(\d+)%/
   legislator.chamber_id = $1
 
-  option.instance_eval('@value') =~ /%(\d+)!/
+  option.instance_eval('@value') =~ /%23(\d+)!/
   legislator.subscription_number = $1 # matricula
 
   option.instance_eval('@value') =~ /\!(.*)=/
