@@ -60,27 +60,27 @@ field_lengths = [
                  ['legislator_subscription_number', 3]
                 ]
 
-# filepaths = `find source_data | grep -e "/LV"`.split("\n")
+filepaths = `find source_data | grep -e "/LV"`.split("\n")
 
-# FasterCSV.open('votes.csv', 'w', :headers => true) do |csv|
-#   csv << field_lengths.map{|name, length| name }
+FasterCSV.open('votes.csv', 'w', :headers => true) do |csv|
+  csv << field_lengths.map{|name, length| name }
 
-#   filepaths.each do |filepath|
-#     File.open(filepath) do |file|
-#       file.each_line do |line|
-#         i = 0
-#         csv_line = []
+  filepaths.each do |filepath|
+    File.open(filepath) do |file|
+      file.each_line do |line|
+        i = 0
+        csv_line = []
 
-#         field_lengths.each do |name, length|
-#           csv_line << line[i...(i+length)].strip
-#           i += length
-#         end
+        field_lengths.each do |name, length|
+          csv_line << line[i...(i+length)].strip
+          i += length
+        end
 
-#         csv << csv_line
-#       end
-#     end
-#   end
-# end
+        csv << csv_line
+      end
+    end
+  end
+end
 
 
 ##
