@@ -37,8 +37,8 @@ end_year = 2010
     filename = 'source.zip'
     filepath = File.join(path, filename)
     FileUtils.mkpath(path)
-#    `wget -O #{filepath} #{url}`
-#    `unzip -d #{path} #{filepath}`
+    `wget -O #{filepath} #{url}`
+    `unzip -d #{path} #{filepath}`
   end
 end
 
